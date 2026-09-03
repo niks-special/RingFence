@@ -1,0 +1,16 @@
+{
+  "run_meta": {
+    "total_transactions": 3018,
+    "total_clusters_found": 0,
+    "clusters_flagged": 0,
+    "weights": {
+      "resource_reuse": 0.35,
+      "velocity": 0.25,
+      "structuring": 0.2,
+      "refund": 0.2
+    },
+    "threshold": 45,
+    "generated_at": "2026-09-03T13:21:49.568702+00:00"
+  },
+  "clusters": []
+}

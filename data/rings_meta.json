@@ -1,0 +1,277 @@
+[
+  {
+    "ring_id": "ring_00",
+    "merchants": [
+      "mer_532b681428",
+      "mer_03f646ea03",
+      "mer_e916eea3b3"
+    ],
+    "buyers": [
+      "buy_57f1f6585a",
+      "buy_d694e8fc5d",
+      "buy_17f150a684",
+      "buy_cc500dc416"
+    ],
+    "devices": [
+      "dev_2501aa3e1a",
+      "dev_b6d2da4af3"
+    ],
+    "ips": [
+      "ip_198d9432a7",
+      "ip_7ca5eb6c0b",
+      "ip_2313e04351"
+    ],
+    "instruments": [
+      "pi_2075d337bd",
+      "pi_e00d4a0a00",
+      "pi_09c6c5b865"
+    ],
+    "settlement_accounts": [
+      "acct_e64c89d911"
+    ],
+    "registration_ips": [
+      "regip_f943c8ffd8",
+      "regip_41e4d9c260"
+    ]
+  },
+  {
+    "ring_id": "ring_01",
+    "merchants": [
+      "mer_aff456decf",
+      "mer_08413e2754"
+    ],
+    "buyers": [
+      "buy_e9f029d751",
+      "buy_ea2e3ccd2c",
+      "buy_6c42c79c9c"
+    ],
+    "devices": [
+      "dev_b115fc1e5a",
+      "dev_58fc46ca8b",
+      "dev_b1cad10be4"
+    ],
+    "ips": [
+      "ip_77fe986ad6",
+      "ip_1fe93f8b78",
+      "ip_731af0556a"
+    ],
+    "instruments": [
+      "pi_818daeaa7d",
+      "pi_26ca419342"
+    ],
+    "settlement_accounts": [
+      "acct_bf4dd07e9a"
+    ],
+    "registration_ips": [
+      "regip_fe75664c3a",
+      "regip_fa2b6230d7"
+    ]
+  },
+  {
+    "ring_id": "ring_02",
+    "merchants": [
+      "mer_12964f52a8",
+      "mer_f37e62b629",
+      "mer_3fd2e6b479",
+      "mer_d4203931f4"
+    ],
+    "buyers": [
+      "buy_8faffbd255",
+      "buy_6c0cb14e4e",
+      "buy_c3b8effea0",
+      "buy_6d626d8e6c",
+      "buy_b5a4e5d628"
+    ],
+    "devices": [
+      "dev_43ec81eda8",
+      "dev_ecdcb0724d"
+    ],
+    "ips": [
+      "ip_6335e08762",
+      "ip_51fb44d435",
+      "ip_1e33e8b097"
+    ],
+    "instruments": [
+      "pi_b4eb4fde1c",
+      "pi_94659fc505",
+      "pi_b037e883a6"
+    ],
+    "settlement_accounts": [
+      "acct_dfdf49ea46",
+      "acct_13fc646ff6"
+    ],
+    "registration_ips": [
+      "regip_4d3d6d11bd"
+    ]
+  },
+  {
+    "ring_id": "ring_03",
+    "merchants": [
+      "mer_3ffdb66a46",
+      "mer_23c2b829ea",
+      "mer_6fe079551a"
+    ],
+    "buyers": [
+      "buy_6e3a953acf",
+      "buy_98581a5884",
+      "buy_072590e7e4"
+    ],
+    "devices": [
+      "dev_53e0be2d4f",
+      "dev_685f60bbaa",
+      "dev_723ddef924",
+      "dev_7d6c66376c"
+    ],
+    "ips": [
+      "ip_1704400a45",
+      "ip_0ab83fb84b"
+    ],
+    "instruments": [
+      "pi_50e703c990",
+      "pi_28ea7f2a2d",
+      "pi_3320957c6c"
+    ],
+    "settlement_accounts": [
+      "acct_30f34c709c"
+    ],
+    "registration_ips": [
+      "regip_8472cac7f3",
+      "regip_15a2c6e2a0"
+    ]
+  },
+  {
+    "ring_id": "ring_04",
+    "merchants": [
+      "mer_9227462158",
+      "mer_cefcb3e648"
+    ],
+    "buyers": [
+      "buy_48fed63f23",
+      "buy_f29e50807f"
+    ],
+    "devices": [
+      "dev_0b7ebf8f00",
+      "dev_ef2d5ac211",
+      "dev_6ddc282ef9",
+      "dev_f3898d3098"
+    ],
+    "ips": [
+      "ip_c8d97ec447",
+      "ip_16e4cc6232"
+    ],
+    "instruments": [
+      "pi_f4e0b23a16",
+      "pi_c91e949849",
+      "pi_2c30ccaa40"
+    ],
+    "settlement_accounts": [
+      "acct_9ae45bdd3e"
+    ],
+    "registration_ips": [
+      "regip_3b1a6d1ff2"
+    ]
+  },
+  {
+    "ring_id": "ring_05",
+    "merchants": [
+      "mer_b4260d0137",
+      "mer_f36e1bca0c"
+    ],
+    "buyers": [
+      "buy_7c4bf9d60d",
+      "buy_0784decb2a"
+    ],
+    "devices": [
+      "dev_21a80ea200",
+      "dev_7574c63760",
+      "dev_977581c720",
+      "dev_87a065aa4c"
+    ],
+    "ips": [
+      "ip_1de7df048b",
+      "ip_bc322846b2",
+      "ip_ae6d94ffe8"
+    ],
+    "instruments": [
+      "pi_3ea90790da",
+      "pi_d6b27b565a"
+    ],
+    "settlement_accounts": [
+      "acct_632bb009f7",
+      "acct_4529f72915"
+    ],
+    "registration_ips": [
+      "regip_515f721ada"
+    ]
+  },
+  {
+    "ring_id": "ring_06",
+    "merchants": [
+      "mer_8d1808c375",
+      "mer_e7323e6077"
+    ],
+    "buyers": [
+      "buy_4e58a81711",
+      "buy_7156ba2ddb",
+      "buy_8254b00928"
+    ],
+    "devices": [
+      "dev_d87fb89821",
+      "dev_53cc7c8b49"
+    ],
+    "ips": [
+      "ip_6088b9698f",
+      "ip_596f586649",
+      "ip_98d1b95a62",
+      "ip_7f0f45b8c4"
+    ],
+    "instruments": [
+      "pi_b1fdb5aba4",
+      "pi_2a36c1c402",
+      "pi_9c0cde20a5"
+    ],
+    "settlement_accounts": [
+      "acct_0c18f46594"
+    ],
+    "registration_ips": [
+      "regip_170bf53f64"
+    ]
+  },
+  {
+    "ring_id": "ring_07",
+    "merchants": [
+      "mer_6c38d4141c",
+      "mer_dc73f02dcd",
+      "mer_952633d44e",
+      "mer_cd95708cb3"
+    ],
+    "buyers": [
+      "buy_236d5bb5e4",
+      "buy_a75db22450",
+      "buy_0c6ad10bbe",
+      "buy_d6b9c47f52",
+      "buy_4882bbfbd8"
+    ],
+    "devices": [
+      "dev_f96e4b4164",
+      "dev_b8120dc78e",
+      "dev_2efccf7f32",
+      "dev_d44ae90167"
+    ],
+    "ips": [
+      "ip_ed6fb21aa3",
+      "ip_f601e21ccc",
+      "ip_698bd9cb66"
+    ],
+    "instruments": [
+      "pi_a371275261",
+      "pi_bec1dafb4b"
+    ],
+    "settlement_accounts": [
+      "acct_dc7a271a62"
+    ],
+    "registration_ips": [
+      "regip_f4fc17a277"
+    ]
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "strategy": "thin_device_reuse",
+    "ring_txns": 18,
+    "ring_txns_caught": 0,
+    "detected": false,
+    "catch_rate": 0.0
+  },
+  {
+    "strategy": "slow_drip",
+    "ring_txns": 18,
+    "ring_txns_caught": 18,
+    "detected": true,
+    "catch_rate": 1.0
+  },
+  {
+    "strategy": "irregular_amounts",
+    "ring_txns": 18,
+    "ring_txns_caught": 18,
+    "detected": true,
+    "catch_rate": 1.0
+  },
+  {
+    "strategy": "no_refunds",
+    "ring_txns": 18,
+    "ring_txns_caught": 18,
+    "detected": true,
+    "catch_rate": 1.0
+  },
+  {
+    "strategy": "smart_combined",
+    "ring_txns": 18,
+    "ring_txns_caught": 0,
+    "detected": false,
+    "catch_rate": 0.0
+  }
+]

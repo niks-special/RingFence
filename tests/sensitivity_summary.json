@@ -1,0 +1,13 @@
+{
+  "best_operating_point": {
+    "threshold": 20.0,
+    "min_reuse": 2.0,
+    "precision": 1.0,
+    "recall": 0.8703703703703703,
+    "f1": 0.9306930693069307,
+    "tp": 94.0,
+    "fp": 0.0,
+    "fn": 14.0
+  },
+  "note": "Tuned on the same synthetic dataset used for headline metrics. In production this sweep should run on a separate validation split, not the reported test set."
+}

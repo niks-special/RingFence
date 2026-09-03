@@ -1,0 +1,11 @@
+{
+  "n_seeds": 7,
+  "precision_mean": 1.0,
+  "precision_std": 0.0,
+  "recall_mean": 0.744,
+  "recall_std": 0.0823,
+  "f1_mean": 0.851,
+  "f1_std": 0.0542,
+  "ring_recall_mean": 0.7321,
+  "ring_recall_std": 0.0863
+}

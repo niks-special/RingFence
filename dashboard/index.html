@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RingFence — Collusion Detection Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0F14;
+    --panel: #131A21;
+    --panel-2: #0F151B;
+    --border: #232C35;
+    --text: #DCE4EA;
+    --muted: #7C8A96;
+    --amber: #E8A33D;
+    --amber-dim: #E8A33D22;
+    --cyan: #57B6D9;
+    --cyan-dim: #57B6D922;
+    --teal: #35B88A;
+    --teal-dim: #35B88A22;
+    --rose: #D9707A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  .display { font-family: 'Space Grotesk', sans-serif; }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark {
+    width: 22px; height: 22px;
+    border: 2px solid var(--amber);
+    border-radius: 50%;
+    position: relative;
+  }
+  .brand-mark::after {
+    content: '';
+    position: absolute; inset: 5px;
+    border: 2px solid var(--cyan);
+    border-radius: 50%;
+  }
+  .brand-name { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: 0.2px; }
+  .status-pill {
+    display: flex; align-items: center; gap: 7px;
+    font-size: 12.5px; color: var(--muted);
+    padding: 5px 12px; border: 1px solid var(--border); border-radius: 100px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 8px var(--teal); }
+
+  .hero {
+    padding: 36px 28px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-head { max-width: 620px; margin-bottom: 26px; }
+  .hero-head h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px; font-weight: 600; margin: 0 0 8px;
+  }
+  .hero-head p { color: var(--muted); margin: 0; font-size: 14px; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .kpi { background: var(--panel); padding: 16px 18px; }
+  .kpi-label { color: var(--muted); font-size: 11.5px; text-transform: none; margin-bottom: 8px; }
+  .kpi-value { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 600; }
+  .kpi-value.amber { color: var(--amber); }
+  .kpi-value.teal { color: var(--teal); }
+  .kpi-sub { font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+
+  .main {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 0;
+    min-height: 560px;
+  }
+  .queue {
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+  }
+  .queue-head { padding: 0 20px 14px; display: flex; align-items: center; justify-content: space-between; }
+  .queue-head h2 { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; margin: 0; }
+  .queue-head span { color: var(--muted); font-size: 12px; }
+
+  .cluster-item {
+    padding: 13px 20px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.12s ease;
+  }
+  .cluster-item:hover { background: var(--panel-2); }
+  .cluster-item.active { background: var(--panel-2); border-left: 2px solid var(--amber); padding-left: 18px; }
+  .cluster-item-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .cluster-id { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+  .risk-badge {
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px;
+    padding: 2px 9px; border-radius: 5px;
+  }
+  .risk-badge.flagged { background: var(--amber-dim); color: var(--amber); }
+  .risk-badge.clear { background: var(--teal-dim); color: var(--teal); }
+  .cluster-item-meta { color: var(--muted); font-size: 12px; }
+
+  .detail { padding: 24px 28px; }
+  .detail-empty { color: var(--muted); padding: 60px 20px; text-align: center; }
+
+  .detail-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 22px; }
+  .detail-title { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; margin: 0 0 6px; }
+  .detail-sub { color: var(--muted); font-size: 13px; }
+  .action-tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
+    padding: 5px 11px; border-radius: 5px; white-space: nowrap;
+  }
+  .action-tag.review { background: var(--amber-dim); color: var(--amber); border: 1px solid #E8A33D44; }
+  .action-tag.none { background: var(--teal-dim); color: var(--teal); border: 1px solid #35B88A44; }
+
+  .signals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .signal-card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .signal-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  .signal-bar-bg { height: 5px; background: var(--panel-2); border-radius: 3px; overflow: hidden; margin-bottom: 7px; }
+  .signal-bar { height: 100%; background: var(--cyan); border-radius: 3px; }
+  .signal-value { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; }
+
+  .section-label { font-size: 12px; color: var(--muted); margin: 22px 0 10px; display:flex; align-items:center; gap: 8px;}
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .evidence-list { display: flex; flex-direction: column; gap: 6px; }
+  .evidence-item {
+    font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--text);
+    background: var(--panel); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 12px;
+  }
+  .evidence-item .res { color: var(--cyan); }
+
+  .graph-wrap { display: flex; justify-content: center; padding: 10px 0 4px; }
+
+  footer {
+    padding: 16px 28px; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 12px; display: flex; justify-content: space-between;
+  }
+
+  @media (max-width: 860px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .main { grid-template-columns: 1fr; }
+    .queue { border-right: none; border-bottom: 1px solid var(--border); }
+    .signals { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark"></div>
+    <div class="brand-name">RingFence</div>
+  </div>
+  <div class="status-pill"><span class="dot"></span> Monitoring &nbsp;·&nbsp; defense-only</div>
+</div>
+
+<div class="hero">
+  <div class="hero-head">
+    <h1>Collusion ring detection console</h1>
+    <p>Graph-based detection of coordinated buyer and merchant fraud rings. Every flag is explainable, bounded to a review action, and backed by an audit trail — nothing here auto-blocks a real account.</p>
+  </div>
+  <div class="kpi-row" id="kpiRow"></div>
+</div>
+
+<div class="main">
+  <div class="queue">
+    <div class="queue-head">
+      <h2>Cluster queue</h2>
+      <span id="queueCount"></span>
+    </div>
+    <div id="clusterList"></div>
+  </div>
+  <div class="detail" id="detailPanel">
+    <div class="detail-empty">Select a cluster to view its risk breakdown and audit trail.</div>
+  </div>
+</div>
+
+<footer>
+  <span>RingFence · AI Risk Manager track</span>
+  <span id="evalSummary" class="mono"></span>
+</footer>
+
+<script>
+const DATA = {"detection":{"run_meta":{"total_transactions":3018,"total_clusters_found":0,"clusters_flagged":0,"weights":{"resource_reuse":0.35,"velocity":0.25,"structuring":0.2,"refund":0.2},"threshold":45,"generated_at":"2026-09-03T13:21:49.568702+00:00"},"clusters":[]},"audit":[],"evaluation":{"transaction_level":{"true_positives":94,"false_positives":0,"false_negatives":14,"true_negatives":9000,"precision":1.0,"recall":0.8704,"f1":0.9307},"ring_level":{"true_rings_embedded":8,"rings_caught":7,"rings_caught_ids":["ring_00","ring_02","ring_03","ring_04","ring_05","ring_06","ring_07"],"rings_missed_ids":["ring_01"],"ring_recall":0.875,"flagged_clusters_total":11,"flagged_clusters_that_were_real_rings":11,"ring_precision":1.0,"false_positive_clusters":0},"cost_analysis_inr":{"assumptions":{"cost_per_false_positive_review":450,"cost_per_false_positive_friction":800,"avg_missed_ring_loss":45000},"total_false_positive_cost":0,"total_missed_ring_cost":45000,"net_value_of_running_detector":45000}},"rings_meta":[{"ring_id":"ring_00","merchants":["mer_532b681428","mer_03f646ea03","mer_e916eea3b3"],"buyers":["buy_57f1f6585a","buy_d694e8fc5d","buy_17f150a684","buy_cc500dc416"],"devices":["dev_2501aa3e1a","dev_b6d2da4af3"],"ips":["ip_198d9432a7","ip_7ca5eb6c0b","ip_2313e04351"],"instruments":["pi_2075d337bd","pi_e00d4a0a00","pi_09c6c5b865"],"settlement_accounts":["acct_e64c89d911"],"registration_ips":["regip_f943c8ffd8","regip_41e4d9c260"]},{"ring_id":"ring_01","merchants":["mer_aff456decf","mer_08413e2754"],"buyers":["buy_e9f029d751","buy_ea2e3ccd2c","buy_6c42c79c9c"],"devices":["dev_b115fc1e5a","dev_58fc46ca8b","dev_b1cad10be4"],"ips":["ip_77fe986ad6","ip_1fe93f8b78","ip_731af0556a"],"instruments":["pi_818daeaa7d","pi_26ca419342"],"settlement_accounts":["acct_bf4dd07e9a"],"registration_ips":["regip_fe75664c3a","regip_fa2b6230d7"]},{"ring_id":"ring_02","merchants":["mer_12964f52a8","mer_f37e62b629","mer_3fd2e6b479","mer_d4203931f4"],"buyers":["buy_8faffbd255","buy_6c0cb14e4e","buy_c3b8effea0","buy_6d626d8e6c","buy_b5a4e5d628"],"devices":["dev_43ec81eda8","dev_ecdcb0724d"],"ips":["ip_6335e08762","ip_51fb44d435","ip_1e33e8b097"],"instruments":["pi_b4eb4fde1c","pi_94659fc505","pi_b037e883a6"],"settlement_accounts":["acct_dfdf49ea46","acct_13fc646ff6"],"registration_ips":["regip_4d3d6d11bd"]},{"ring_id":"ring_03","merchants":["mer_3ffdb66a46","mer_23c2b829ea","mer_6fe079551a"],"buyers":["buy_6e3a953acf","buy_98581a5884","buy_072590e7e4"],"devices":["dev_53e0be2d4f","dev_685f60bbaa","dev_723ddef924","dev_7d6c66376c"],"ips":["ip_1704400a45","ip_0ab83fb84b"],"instruments":["pi_50e703c990","pi_28ea7f2a2d","pi_3320957c6c"],"settlement_accounts":["acct_30f34c709c"],"registration_ips":["regip_8472cac7f3","regip_15a2c6e2a0"]},{"ring_id":"ring_04","merchants":["mer_9227462158","mer_cefcb3e648"],"buyers":["buy_48fed63f23","buy_f29e50807f"],"devices":["dev_0b7ebf8f00","dev_ef2d5ac211","dev_6ddc282ef9","dev_f3898d3098"],"ips":["ip_c8d97ec447","ip_16e4cc6232"],"instruments":["pi_f4e0b23a16","pi_c91e949849","pi_2c30ccaa40"],"settlement_accounts":["acct_9ae45bdd3e"],"registration_ips":["regip_3b1a6d1ff2"]},{"ring_id":"ring_05","merchants":["mer_b4260d0137","mer_f36e1bca0c"],"buyers":["buy_7c4bf9d60d","buy_0784decb2a"],"devices":["dev_21a80ea200","dev_7574c63760","dev_977581c720","dev_87a065aa4c"],"ips":["ip_1de7df048b","ip_bc322846b2","ip_ae6d94ffe8"],"instruments":["pi_3ea90790da","pi_d6b27b565a"],"settlement_accounts":["acct_632bb009f7","acct_4529f72915"],"registration_ips":["regip_515f721ada"]},{"ring_id":"ring_06","merchants":["mer_8d1808c375","mer_e7323e6077"],"buyers":["buy_4e58a81711","buy_7156ba2ddb","buy_8254b00928"],"devices":["dev_d87fb89821","dev_53cc7c8b49"],"ips":["ip_6088b9698f","ip_596f586649","ip_98d1b95a62","ip_7f0f45b8c4"],"instruments":["pi_b1fdb5aba4","pi_2a36c1c402","pi_9c0cde20a5"],"settlement_accounts":["acct_0c18f46594"],"registration_ips":["regip_170bf53f64"]},{"ring_id":"ring_07","merchants":["mer_6c38d4141c","mer_dc73f02dcd","mer_952633d44e","mer_cd95708cb3"],"buyers":["buy_236d5bb5e4","buy_a75db22450","buy_0c6ad10bbe","buy_d6b9c47f52","buy_4882bbfbd8"],"devices":["dev_f96e4b4164","dev_b8120dc78e","dev_2efccf7f32","dev_d44ae90167"],"ips":["ip_ed6fb21aa3","ip_f601e21ccc","ip_698bd9cb66"],"instruments":["pi_a371275261","pi_bec1dafb4b"],"settlement_accounts":["acct_dc7a271a62"],"registration_ips":["regip_f4fc17a277"]}]};
+const clusters = DATA.detection.clusters.slice().sort((a,b) => b.risk_score - a.risk_score);
+const auditByCluster = Object.fromEntries(DATA.audit.map(a => [a.cluster_id, a]));
+const evalR = DATA.evaluation;
+
+function fmtPct(x) { return (x*100).toFixed(1) + '%'; }
+
+// ---- KPI row ----
+const kpiRow = document.getElementById('kpiRow');
+const kpis = [
+  { label: 'Transactions scanned', value: DATA.detection.run_meta.total_transactions.toLocaleString(), sub: 'held-out test run' },
+  { label: 'Clusters flagged', value: DATA.detection.run_meta.clusters_flagged, sub: `of ${DATA.detection.run_meta.total_clusters_found} candidate clusters`, cls: 'amber' },
+  { label: 'Precision', value: fmtPct(evalR.transaction_level.precision), sub: `${evalR.transaction_level.false_positives} false positives`, cls: 'teal' },
+  { label: 'Recall', value: fmtPct(evalR.transaction_level.recall), sub: `${evalR.ring_level.rings_caught}/${evalR.ring_level.true_rings_embedded} rings caught` },
+  { label: 'Net value protected', value: '₹' + evalR.cost_analysis_inr.net_value_of_running_detector.toLocaleString('en-IN'), sub: 'vs. false-positive cost' },
+];
+kpiRow.innerHTML = kpis.map(k => `
+  <div class="kpi">
+    <div class="kpi-label">${k.label}</div>
+    <div class="kpi-value ${k.cls||''}">${k.value}</div>
+    <div class="kpi-sub">${k.sub}</div>
+  </div>
+`).join('');
+
+// ---- Queue ----
+document.getElementById('queueCount').textContent = clusters.length + ' clusters';
+const listEl = document.getElementById('clusterList');
+listEl.innerHTML = clusters.map(c => `
+  <div class="cluster-item" data-id="${c.cluster_id}">
+    <div class="cluster-item-top">
+      <span class="cluster-id">${c.cluster_id}</span>
+      <span class="risk-badge ${c.flagged ? 'flagged' : 'clear'}">${c.risk_score.toFixed(0)}</span>
+    </div>
+    <div class="cluster-item-meta">${c.n_merchants} merchants · ${c.n_buyers} buyers · ${c.n_transactions} txns</div>
+  </div>
+`).join('');
+
+// ---- Detail panel ----
+const detailPanel = document.getElementById('detailPanel');
+
+function renderGraph(cluster) {
+  const audit = auditByCluster[cluster.cluster_id];
+  const merchants = audit.entities_involved.merchants;
+  const buyers = audit.entities_involved.buyers;
+  const nodes = [
+    ...merchants.map(id => ({ id, kind: 'merchant' })),
+    ...buyers.map(id => ({ id, kind: 'buyer' })),
+  ];
+  const W = 560, H = 220, cx = W/2, cy = H/2, R = 85;
+  const n = Math.max(nodes.length, 1);
+  const pos = {};
+  nodes.forEach((node, i) => {
+    const angle = (2 * Math.PI * i) / n - Math.PI/2;
+    pos[node.id] = { x: cx + R * Math.cos(angle), y: cy + R * Math.sin(angle) };
+  });
+  let edges = '';
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i+1; j < nodes.length; j++) {
+      const a = pos[nodes[i].id], b = pos[nodes[j].id];
+      edges += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#57B6D9" stroke-opacity="0.18" stroke-width="1.5"/>`;
+    }
+  }
+  const dots = nodes.map(node => {
+    const p = pos[node.id];
+    const color = node.kind === 'merchant' ? '#E8A33D' : '#57B6D9';
+    const label = node.id.split('_')[1].slice(0,4);
+    return `<circle cx="${p.x}" cy="${p.y}" r="9" fill="${color}" fill-opacity="0.85"/>
+            <text x="${p.x}" y="${p.y+22}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9.5" fill="#7C8A96">${label}</text>`;
+  }).join('');
+  return `<svg width="${W}" height="${H+16}" viewBox="0 0 ${W} ${H+16}">${edges}${dots}</svg>`;
+}
+
+function selectCluster(id) {
+  const cluster = clusters.find(c => c.cluster_id === id);
+  const audit = auditByCluster[id];
+  document.querySelectorAll('.cluster-item').forEach(el => el.classList.toggle('active', el.dataset.id === id));
+
+  const signals = cluster.signals;
+  const signalMeta = [
+    { key: 'resource_reuse_score', label: 'Resource reuse' },
+    { key: 'velocity_score', label: 'Velocity (burst)' },
+    { key: 'structuring_score', label: 'Amount structuring' },
+    { key: 'refund_score', label: 'Refund rate lift' },
+  ];
+
+  const evidenceHtml = (audit.evidence || []).slice(0, 8).map(e => {
+    const [resPart, rest] = e.split(' shared by ');
+    return `<div class="evidence-item"><span class="res">${resPart}</span> shared by ${rest}</div>`;
+  }).join('') || '<div class="evidence-item">No direct shared-resource evidence recorded.</div>';
+
+  detailPanel.innerHTML = `
+    <div class="detail-top">
+      <div>
+        <div class="detail-title">${cluster.cluster_id}</div>
+        <div class="detail-sub">${cluster.n_merchants} merchants · ${cluster.n_buyers} buyers · ${cluster.n_transactions} transactions · risk score ${cluster.risk_score.toFixed(1)}/100</div>
+      </div>
+      <div class="action-tag ${cluster.flagged ? 'review' : 'none'}">${cluster.action}</div>
+    </div>
+
+    <div class="signals">
+      ${signalMeta.map(s => `
+        <div class="signal-card">
+          <div class="signal-label">${s.label}</div>
+          <div class="signal-bar-bg"><div class="signal-bar" style="width:${Math.min(signals[s.key],100)}%"></div></div>
+          <div class="signal-value">${signals[s.key].toFixed(0)}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="section-label">Shared-resource graph</div>
+    <div class="graph-wrap">${renderGraph(cluster)}</div>
+
+    <div class="section-label">Audit evidence (why this cluster was ${cluster.flagged ? 'flagged' : 'not flagged'})</div>
+    <div class="evidence-list">${evidenceHtml}</div>
+  `;
+}
+
+listEl.addEventListener('click', (e) => {
+  const item = e.target.closest('.cluster-item');
+  if (item) selectCluster(item.dataset.id);
+});
+
+if (clusters.length) selectCluster(clusters[0].cluster_id);
+
+// ---- Footer ----
+document.getElementById('evalSummary').textContent =
+  `precision ${fmtPct(evalR.transaction_level.precision)} · recall ${fmtPct(evalR.transaction_level.recall)} · f1 ${evalR.transaction_level.f1.toFixed(3)}`;
+</script>
+</body>
+</html>

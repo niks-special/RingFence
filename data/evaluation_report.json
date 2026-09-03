@@ -1,0 +1,42 @@
+{
+  "transaction_level": {
+    "true_positives": 94,
+    "false_positives": 0,
+    "false_negatives": 14,
+    "true_negatives": 9000,
+    "precision": 1.0,
+    "recall": 0.8704,
+    "f1": 0.9307
+  },
+  "ring_level": {
+    "true_rings_embedded": 8,
+    "rings_caught": 7,
+    "rings_caught_ids": [
+      "ring_00",
+      "ring_02",
+      "ring_03",
+      "ring_04",
+      "ring_05",
+      "ring_06",
+      "ring_07"
+    ],
+    "rings_missed_ids": [
+      "ring_01"
+    ],
+    "ring_recall": 0.875,
+    "flagged_clusters_total": 11,
+    "flagged_clusters_that_were_real_rings": 11,
+    "ring_precision": 1.0,
+    "false_positive_clusters": 0
+  },
+  "cost_analysis_inr": {
+    "assumptions": {
+      "cost_per_false_positive_review": 450,
+      "cost_per_false_positive_friction": 800,
+      "avg_missed_ring_loss": 45000
+    },
+    "total_false_positive_cost": 0,
+    "total_missed_ring_cost": 45000,
+    "net_value_of_running_detector": 45000
+  }
+}
