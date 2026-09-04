@@ -39,7 +39,7 @@ harder to fake, because it requires real, expensive shared infrastructure.
    - **Refund lift** — refund/chargeback rate vs. platform baseline
 4. **Combine into a 0–100 risk score** with documented, tunable weights —
    not a black box.
-5. **Flag clusters ≥ 55 for review.** This is a bounded, gated action, not
+5. **Flag clusters ≥ 45 for review.** This is a bounded, gated action, not
    an auto-block — a wrongly-held merchant has a real cost.
 6. **Emit a full audit trail**: which entities, which shared resources,
    which signals fired, and why — for every single decision.
