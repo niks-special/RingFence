@@ -358,4 +358,11 @@ HTML = HTML.replace("__DATA_JSON__", DATA_JSON)
 with open(str(DASHBOARD_DIR / "index.html"), "w") as f:
     f.write(HTML)
 
+DOCS_DIR = DASHBOARD_DIR.parent / "docs"
+DOCS_DIR.mkdir(exist_ok=True)
+with open(str(DOCS_DIR / "index.html"), "w") as f:
+    f.write(HTML)
+(DOCS_DIR / ".nojekyll").touch()
+
 print(f"Dashboard written: {len(HTML):,} bytes")
+print(f"Also synced to {DOCS_DIR / 'index.html'} for GitHub Pages")
